@@ -15,7 +15,7 @@ def parse_incoming(body)
 end
 
 def message_for_labels(body)
-  incoming = parse_incoming(body)
+  incoming = parse_incoming(body) if body != ''
   return nil unless incoming
   "@#{incoming[:action]['user']['login']} added label " \
   "*#{incoming['label']['name']}* to " \
@@ -23,7 +23,8 @@ def message_for_labels(body)
 end
 
 post '/' do
-  message = message_for_labels(request.body)
-  return nil unless message
-  notifier.ping message
+  message = message_for_labels(request.body.read) if request.body
+  notifier.ping message if message
+  status '200'
+  body message
 end
