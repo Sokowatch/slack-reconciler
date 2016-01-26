@@ -1,4 +1,4 @@
-# Slack Reconciler [![Build Status](https://travis-ci.org/Reliefwatch/slack-reconciler.svg?branch=master)](https://travis-ci.org/Reliefwatch/slack-reconciler)
+# Slack Reconciler [![Build Status](https://travis-ci.org/Reliefwatch/slack-reconciler.svg?branch=master)](https://travis-ci.org/Reliefwatch/slack-reconciler) [![Code Climate](https://codeclimate.com/repos/56a7ad12d3a95a003b006119/badges/e2c052cda7f175255e34/gpa.svg)](https://codeclimate.com/repos/56a7ad12d3a95a003b006119/feed) [![Test Coverage](https://codeclimate.com/repos/56a7ad12d3a95a003b006119/badges/e2c052cda7f175255e34/coverage.svg)](https://codeclimate.com/repos/56a7ad12d3a95a003b006119/coverage)
 
 Bridge webservices. Connect Webhooks. Format output. Send the result to slack :tada:
 
