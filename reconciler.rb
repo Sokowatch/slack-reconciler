@@ -19,7 +19,7 @@ def message_for_labels(body)
   return nil unless incoming
   "@#{incoming[:action]['user']['login']} added label " \
   "*#{incoming['label']['name']}* to " \
-  "[#{incoming[:action]['title']}](#{incoming[:action]['url']})"
+  "[#{incoming[:action]['title']}](#{incoming[:action]['html_url']})"
 end
 
 post '/' do
