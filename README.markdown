@@ -2,7 +2,11 @@
 
 Bridge webservices. Connect Webhooks. Format output. Send the result to slack :tada:
 
-It's set up right now to passthrough github pull-request and issue notifications, find the label actions, and format the response to send it back.
+It's set up right now to bridge github pull-request and issue notifications and send a notification when a label is added (a feature that slack doesn't support).
+
+This uses the [slack-notifier gem](https://github.com/stevenosloan/slack-notifier)
+
+
 
 ---------
 
@@ -18,6 +22,6 @@ After you've deployed, take the Heroku URL from the settings and add it to Githu
 
 ## Testing
 
-run `be guard` to get continuous testing
+run `bundle exec guard` to get continuous testing.
 
 Slack Reconciler uses `ruby-2.2.2`
