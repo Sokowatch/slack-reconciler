@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe 'app' do
+  let(:target_label_response) do
+    '@Zensaburou added label *Ready to merge* ' \
+      'to [Cannot upload mp3s for certain universal messages]'\
+      '(https://github.com/Reliefwatch/demo_repository/issues/393)'
+  end
+
   describe 'value_defined?' do
     context 'empty' do
       it 'is false' do
@@ -21,9 +27,7 @@ describe 'app' do
 
   describe 'parse_input' do
     it 'formats the message the way that we expect' do
-      target = '@Zensaburou added label *Ready to merge* ' \
-        'to [Cannot upload mp3s for certain universal messages](https://github.com/Reliefwatch/demo_repository/issues/393)'
-      expect(message_for_labels(webhook_fixture)).to eq target
+      expect(message_for_labels(webhook_fixture)).to eq target_label_response
     end
   end
 
@@ -32,12 +36,13 @@ describe 'app' do
       it 'succeeds' do
         post '/'
         expect(last_response).to be_ok
+        expect(last_response.body).to match(/no request body/i)
       end
     end
     context 'posting webhook body' do
       it 'succeeds' do
         post '/', webhook_fixture
-        expect(last_response).to be_ok
+        expect(last_response.body).to eq target_label_response
       end
     end
   end

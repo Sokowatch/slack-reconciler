@@ -27,15 +27,15 @@ end
 
 def message_for_labels(body)
   incoming = parse_incoming(body) if body != ''
-  return nil unless incoming
+  return 'No request body' unless incoming
   "@#{incoming[:action]['user']['login']} added label " \
     "*#{incoming['label']['name']}* to " \
     "[#{incoming[:action]['title']}](#{incoming[:action]['html_url']})"
 end
 
 post '/' do
-  message = message_for_labels(request.body.read) if request.body
+  message = message_for_labels(request.body.read)
   notifier.ping message if notifier
   status '200'
-  body message
+  message
 end
