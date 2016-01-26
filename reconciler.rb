@@ -22,7 +22,7 @@ def message_for_labels(body)
   "[#{incoming[:action]['title']}](#{incoming[:action]['url']})"
 end
 
-get '/' do
+post '/' do
   message = message_for_labels(request.body)
   return nil unless message
   notifier.ping message
