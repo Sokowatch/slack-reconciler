@@ -1,4 +1,4 @@
-# Slack Reconciler [![Build Status](https://travis-ci.org/sethherr/slack-reconciler.svg?branch=master)](https://travis-ci.org/sethherr/slack-reconciler)
+# Slack Reconciler [![Build Status](https://travis-ci.org/Reliefwatch/slack-reconciler.svg?branch=master)](https://travis-ci.org/Reliefwatch/slack-reconciler)
 
 Bridge webservices. Connect Webhooks. Format output. Send the result to slack :tada:
 
