@@ -2,12 +2,13 @@ if ENV['CODECLIMATE_REPO_TOKEN']
   require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
 end
+
 require 'rack/test'
 require 'rspec'
 require 'rubocop'
 require 'pp'
 
-$LOAD_PATH.unshift File.expand_path('../../', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'reconciler'
 
 ENV['RACK_ENV'] = 'test'

@@ -4,7 +4,6 @@ ruby '2.2.2'
 
 gem 'sinatra'
 gem 'slack-notifier'
-gem 'dotenv'
 gem 'rake'
 
 group :development do

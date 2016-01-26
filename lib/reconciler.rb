@@ -6,8 +6,8 @@ def value_defined?(value)
   true if value && value.strip != '' && !value.match('OPTIONAL:')
 end
 
-notifier = false
-if ENV['SLACK_URL']
+def send_message(msg)
+  return nil unless ENV['SLACK_URL']
   notifier = Slack::Notifier.new(ENV['SLACK_URL'])
   if value_defined?(ENV['SLACK_CHANNEL'])
     notifier.channel = ENV['SLACK_CHANNEL']
@@ -15,6 +15,7 @@ if ENV['SLACK_URL']
   if value_defined?(ENV['SLACK_USERNAME'])
     notifier.username = ENV['SLACK_USERNAME']
   end
+  notifier.ping msg if notifier && msg
 end
 
 def parse_incoming(body)
@@ -27,7 +28,7 @@ end
 
 def message_for_labels(body)
   incoming = parse_incoming(body) if body != ''
-  return 'No request body' unless incoming
+  return unless incoming
   "@#{incoming[:action]['user']['login']} added label " \
     "*#{incoming['label']['name']}* to " \
     "[#{incoming[:action]['title']}](#{incoming[:action]['html_url']})"
@@ -35,7 +36,7 @@ end
 
 post '/' do
   message = message_for_labels(request.body.read)
-  notifier.ping message if notifier
+  send_message(message) if message
   status '200'
-  message
+  message || 'No request body'
 end

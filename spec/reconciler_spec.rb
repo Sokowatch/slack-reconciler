@@ -45,5 +45,15 @@ describe 'app' do
         expect(last_response.body).to eq target_label_response
       end
     end
+    context 'with notifier' do
+      context 'empty request' do
+        it 'does not send empty requests' do
+          expect_any_instance_of(Slack::Notifier).to_not receive(:ping)
+          post '/'
+          expect(last_response).to be_ok
+          expect(last_response.body).to match(/no request body/i)
+        end
+      end
+    end
   end
 end
