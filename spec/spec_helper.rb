@@ -24,5 +24,5 @@ RSpec.configure do |config|
 end
 
 def webhook_fixture
-  File.read('spec/github_webhook.json')
+  File.read('spec/fixtures/github_webhook.json')
 end

@@ -8,6 +8,8 @@
     "sinatra"
   ],
   "env": {
-    "SLACK_URL": "ENTER YOUR SLACK Webhook URL here"
+    "SLACK_URL": "REQUIRED: SLACK Webhook URL",
+    "SLACK_CHANNEL": "OPTIONAL: Defaults to the channel defined in the slack integration",
+    "SLACK_USERNAME": "OPTIONAL: Defaults to the username defined in the slack integration"
   }
 }

@@ -1,8 +1,11 @@
+# all logfiles and tempfiles.
+/log/*
+!/log/.keep
+/tmp
+/.bundle
+
 # RVM's stuff 
 .ruby-*
 
 # Environmental variables for slack
 .env*
-
-# Secret webhook fixtures
-spec/github_webhook.json
