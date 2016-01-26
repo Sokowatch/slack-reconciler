@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+- 2.2.2
+bundler_args: "--without=guard"
+notifications:
+  disabled: true
+script:
+- bundle exec rake spec
+- bundle exec rubocop

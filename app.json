@@ -1,0 +1,13 @@
+{
+  "name": "Slack reconciler",
+  "description": "Slack Webhook bridge/passthrough using sinatra & slack-notifier",
+  "repository": "https://github.com/sethherr/slack-reconciler",
+  "keywords": [
+    "slack",
+    "webhook",
+    "sinatra"
+  ],
+  "env": {
+    "SLACK_URL": "ENTER YOUR SLACK Webhook URL here"
+  }
+}
