@@ -1,10 +1,19 @@
 require 'spec_helper'
 
 describe 'app' do
+  let(:github_labeled_fixture) { File.read('spec/fixtures/github_labeled_webhook.json') }
+  let(:github_unlabeled_fixture) { File.read('spec/fixtures/github_unlabeled_webhook.json') }
+
   let(:target_label_response) do
-    '@sethherr added label *Ready to merge* ' \
-      'to [Cannot upload mp3s for certain universal messages]'\
-      '(https://github.com/Reliefwatch/demo_repository/issues/393)'
+    '@sethherr **labeled** [Cannot upload mp3s for certain universal messages]' \
+      '(https://github.com/Reliefwatch/demo_repository/issues/393) ' \
+      '*Ready to merge*'
+  end
+
+  let(:target_unlabel_response) do
+    '@sethherr **unlabeled** [Integration testing file]' \
+      '(https://github.com/Reliefwatch/demo_repository/issues/143) ' \
+      '*Upcoming*'
   end
 
   describe 'value_defined?' do
@@ -26,8 +35,15 @@ describe 'app' do
   end
 
   describe 'parse_input' do
-    it 'formats the message the way that we expect' do
-      expect(message_for_labels(webhook_fixture)).to eq target_label_response
+    context 'labeled' do
+      it 'formats the message the way that we expect' do
+        expect(message_for_labels(github_labeled_fixture)).to eq target_label_response
+      end
+    end
+    context 'unlabeled' do
+      it 'formats the message the way that we expect' do
+        expect(message_for_labels(github_unlabeled_fixture)).to eq target_unlabel_response
+      end
     end
   end
 
@@ -41,8 +57,7 @@ describe 'app' do
     end
     context 'posting webhook body' do
       it 'succeeds' do
-        ENV['SLACK_URL'] = 'https://hooks.slack.com/services/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'
-        post '/', webhook_fixture
+        post '/', github_labeled_fixture
         expect(last_response.body).to eq target_label_response
       end
     end

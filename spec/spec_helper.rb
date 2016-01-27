@@ -23,7 +23,3 @@ end
 RSpec.configure do |config|
   config.include RSpecMixin
 end
-
-def webhook_fixture
-  File.read('spec/fixtures/github_webhook.json')
-end
