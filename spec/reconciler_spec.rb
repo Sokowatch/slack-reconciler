@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'app' do
   let(:target_label_response) do
-    '@Zensaburou added label *Ready to merge* ' \
+    '@sethherr added label *Ready to merge* ' \
       'to [Cannot upload mp3s for certain universal messages]'\
       '(https://github.com/Reliefwatch/demo_repository/issues/393)'
   end
@@ -41,6 +41,7 @@ describe 'app' do
     end
     context 'posting webhook body' do
       it 'succeeds' do
+        ENV['SLACK_URL'] = 'https://hooks.slack.com/services/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'
         post '/', webhook_fixture
         expect(last_response.body).to eq target_label_response
       end

@@ -2,6 +2,11 @@ require 'sinatra'
 require 'json'
 require 'slack-notifier'
 
+# Should be ->
+# attr_accessor :icon_url
+
+@icon_url = nil
+
 def value_defined?(value)
   true if value && value.strip != '' && !value.match('OPTIONAL:')
 end
@@ -15,23 +20,24 @@ def send_message(msg)
   if value_defined?(ENV['SLACK_USERNAME'])
     notifier.username = ENV['SLACK_USERNAME']
   end
-  notifier.ping msg if notifier && msg
+  notifier.ping msg, icon_url: @icon_url if notifier && msg
 end
 
 def parse_incoming(body)
   inc = JSON.parse(body)
   return false unless inc['action'] == 'labeled'
-  return inc.merge(action: inc.delete('pull_request')) if inc['pull_request']
-  return inc.merge(action: inc.delete('issue')) if inc['issue']
+  return inc.merge(event: inc.delete('pull_request')) if inc['pull_request']
+  return inc.merge(event: inc.delete('issue')) if inc['issue']
   false
 end
 
 def message_for_labels(body)
   incoming = parse_incoming(body) if body != ''
   return unless incoming
-  "@#{incoming[:action]['user']['login']} added label " \
+  @icon_url = incoming['sender']['avatar_url']
+  "@#{incoming['sender']['login']} added label " \
     "*#{incoming['label']['name']}* to " \
-    "[#{incoming[:action]['title']}](#{incoming[:action]['html_url']})"
+    "[#{incoming[:event]['title']}](#{incoming[:event]['html_url']})"
 end
 
 post '/' do
