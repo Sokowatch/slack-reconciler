@@ -5,13 +5,13 @@ describe 'app' do
   let(:github_unlabeled_fixture) { File.read('spec/fixtures/github_unlabeled_webhook.json') }
 
   let(:target_label_response) do
-    '@sethherr **labeled** [Cannot upload mp3s for certain universal messages]' \
+    '@sethherr _labeled_ [Cannot upload mp3s for certain universal messages]' \
       '(https://github.com/Reliefwatch/demo_repository/issues/393) ' \
       '*Ready to merge*'
   end
 
   let(:target_unlabel_response) do
-    '@sethherr **unlabeled** [Integration testing file]' \
+    '@sethherr _unlabeled_ [Integration testing file]' \
       '(https://github.com/Reliefwatch/demo_repository/issues/143) ' \
       '*Upcoming*'
   end

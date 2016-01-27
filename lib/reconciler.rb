@@ -35,7 +35,7 @@ def message_for_labels(body)
   incoming = parse_incoming(body) if body != ''
   return unless incoming
   @icon_url = incoming['sender']['avatar_url']
-  "@#{incoming['sender']['login']} **#{incoming['action']}** " \
+  "@#{incoming['sender']['login']} _#{incoming['action']}_ " \
     "[#{incoming[:event]['title']}](#{incoming[:event]['html_url']}) " \
     "*#{incoming['label']['name']}*"
 end
