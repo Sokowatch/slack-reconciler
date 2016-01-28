@@ -29,7 +29,7 @@ module ReconcilerParser
     def message
       parsed_body = parse_incoming if @body.strip != ''
       return nil unless parsed_body
-      @icon_url = parsed_body['sender']['avatar_url']
+      icon_url = parsed_body['sender']['avatar_url']
       if parsed_body['action'] && parsed_body['action'].match('labeled')
         message_for_labels(parsed_body)
       elsif parsed_body['pages']
