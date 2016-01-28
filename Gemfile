@@ -5,6 +5,7 @@ ruby '2.2.2'
 gem 'sinatra'
 gem 'slack-notifier'
 gem 'rake'
+gem 'activesupport'
 
 group :development do
   gem 'rspec', '~> 3.3.0'
