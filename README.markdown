@@ -29,9 +29,9 @@ To add github actions:
 3. Add a new webhook
 4. Set the url to `{{reconciler_url}}/github`
 
-You can check the "include all push events", or, if you want to be more selective, pick and choose.
+You can check the "send me everything", or, if you want to be more selective, pick individual events.
 
-If you're being choosey and want to be notified of label updates on pull requests, make sure you select the label check. Ditto for issues and wiki updates.
+If you're being choosey and want to be notified of label updates on pull requests, make sure you select the pull request check. Ditto for issues. To get wiki updates, select "Gollum"
 
 --------
 
