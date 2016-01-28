@@ -1,17 +1,19 @@
 module ReconcilerParser
   class Github < Base
-    def parse_incoming
-      inc = JSON.parse(@body)
+    def parse_body(unparsed_body)
+      inc = JSON.parse(unparsed_body)
       return inc.merge(event: inc.delete('pull_request')) if inc['pull_request']
       return inc.merge(event: inc.delete('issue')) if inc['issue']
       return inc if inc['pages']
       false
+    rescue
+      false
     end
 
-    def message_for_labels(parsed_body)
-      "@#{parsed_body['sender']['login']} _#{parsed_body['action']}_ " \
-        "[#{parsed_body[:event]['title']}](#{parsed_body[:event]['html_url']}) " \
-        "*#{parsed_body['label']['name']}*"
+    def message_for_labels
+      "@#{@body['sender']['login']} _#{@body['action']}_ " \
+        "[#{@body[:event]['title']}](#{@body[:event]['html_url']}) " \
+        "*#{@body['label']['name']}*"
     end
 
     def pages(pages)
@@ -21,20 +23,30 @@ module ReconcilerParser
       end
     end
 
-    def message_for_wiki(parsed_body)
-      "@#{parsed_body['sender']['login']} " +
-        pages(parsed_body['pages']).to_sentence
+    def message_for_wiki
+      "@#{@body['sender']['login']} " +
+        pages(@body['pages']).to_sentence
+    end
+
+    def icon_url
+      @body && @body['sender']['avatar_url']
+    end
+
+    def slack_channel
+      '#general' if @body && event_type == 'wiki'
+    end
+
+    def event_type
+      if @body['action'] && @body['action'].match('labeled')
+        'labels'
+      elsif @body['pages']
+        'wiki'
+      end
     end
 
     def message
-      parsed_body = parse_incoming if @body.strip != ''
-      return nil unless parsed_body
-      icon_url = parsed_body['sender']['avatar_url']
-      if parsed_body['action'] && parsed_body['action'].match('labeled')
-        message_for_labels(parsed_body)
-      elsif parsed_body['pages']
-        message_for_wiki(parsed_body)
-      end
+      return nil unless @body
+      send("message_for_#{event_type}") if event_type
     end
   end
 end

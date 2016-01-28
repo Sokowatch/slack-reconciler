@@ -44,4 +44,26 @@ describe ReconcilerParser::Github do
       end
     end
   end
+
+  context 'wiki fixture' do
+    let(:parser) { ReconcilerParser::Github.new(github_wiki_fixture) }
+    it 'assigns the icon url' do
+      expect(parser.icon_url).to eq 'https://avatars.githubusercontent.com/u/1235441?v=3'
+    end
+
+    it 'sends wiki updates to the general channel' do
+      expect(parser.slack_channel).to eq '#general'
+    end
+  end
+
+  context 'labeled_fixture' do
+    let(:parser) { ReconcilerParser::Github.new(github_labeled_fixture) }
+    it 'assigns the icon url' do
+      expect(parser.icon_url).to eq 'https://avatars.githubusercontent.com/u/1235441?v=3'
+    end
+
+    it 'returns nil for slack_channel' do
+      expect(parser.slack_channel).to eq nil
+    end
+  end
 end

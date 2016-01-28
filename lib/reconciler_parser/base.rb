@@ -1,9 +1,7 @@
 module ReconcilerParser
   class Base
-    attr_accessor :icon_url
-
     def initialize(body)
-      @body = body
+      @body = parse_body(body)
     end
   end
 end

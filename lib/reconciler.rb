@@ -5,8 +5,7 @@ require 'reconciler_parser'
 
 post '/github' do
   github = ReconcilerParser::Github.new(request.body.read)
-  puts "\n\n\n#{github.icon_url}\n"
-  notifier = ReconcilerNotifier.new(icon_url: github.icon_url)
+  notifier = ReconcilerNotifier.new(icon_url: github.icon_url, channel: github.slack_channel)
   notifier.send_message(github.message) if github.message
   status '200'
   github.message || 'No request body'
