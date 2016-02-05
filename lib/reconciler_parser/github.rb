@@ -54,13 +54,21 @@ module ReconcilerParser
     end
 
     def event_type
-      if @body['action'] && @body['action'].match('labeled')
+      if label_added?
         'labels'
-      elsif @body['action'] && @body['action'].match('closed') && milestone_complete?
+      elsif pull_request_closed? && milestone_complete?
         'milestone'
       elsif @body['pages']
         'wiki'
       end
+    end
+
+    def label_added?
+      @body['action'] && @body['action'].match('labeled')
+    end
+
+    def pull_request_closed?
+      @body['action'] && @body['action'].match('closed')
     end
 
     def milestone_complete?
