@@ -1,0 +1,15 @@
+{
+  "action": "closed",
+  "issue": {
+    "title": "The sky is falling"
+  },
+  "state": "closed",
+  "milestone": {
+    "title": "Improve business cloud synergy",
+    "open_issues": 0,
+    "closed_issues": 1,
+  },
+  "repository": {
+    "name": "Uber for Chickens app"
+  }
+}
