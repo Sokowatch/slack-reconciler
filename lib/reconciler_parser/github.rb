@@ -8,7 +8,6 @@ module ReconcilerParser
       return inc if inc['pages']
       false
     rescue
-      puts 'Invalid JSON'
       false
     end
 
