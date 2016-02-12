@@ -4,6 +4,11 @@ describe ReconcilerParser::Github do
   let(:github_labeled_fixture) { File.read('spec/fixtures/github_labeled_webhook.json') }
   let(:github_unlabeled_fixture) { File.read('spec/fixtures/github_unlabeled_webhook.json') }
   let(:github_wiki_fixture) { File.read('spec/fixtures/github_wiki_webhook.json') }
+  let(:github_issue_closed_fixture) { File.read('spec/fixtures/github_issue_closed_webhook.json') }
+
+  let(:github_final_issue_closed_fixture) do
+    File.read('spec/fixtures/github_final_issue_closed_webhook.json')
+  end
 
   let(:target_label_response) do
     '@sethherr _labeled_ [Cannot upload mp3s for certain universal messages]' \
@@ -22,6 +27,10 @@ describe ReconcilerParser::Github do
       '(https://github.com/Reliefwatch/wiki/wiki/Style-guide) and ' \
       '_edited_ the wiki page [Another page]' \
       '(https://github.com/Reliefwatch/wiki/wiki/another-page)'
+  end
+
+  let(:target_milestone_response) do
+    'Promasidor Milestone _completed for_ sokowatch_platform'
   end
 
   describe 'message' do
@@ -64,6 +73,35 @@ describe ReconcilerParser::Github do
 
     it 'returns nil for slack_channel' do
       expect(parser.slack_channel).to eq nil
+    end
+  end
+
+  context 'issue fixture' do
+    context 'milestone completed' do
+      let(:parser) { ReconcilerParser::Github.new(github_final_issue_closed_fixture) }
+      it 'sends updates to the general channel' do
+        expect(parser.slack_channel).to eq '#general'
+      end
+
+      it 'formats the message as expected' do
+        expect(parser.message).to eq target_milestone_response
+      end
+    end
+
+    describe 'milestone_closed?' do
+      context 'last issue closed' do
+        it 'returns true' do
+          parser = ReconcilerParser::Github.new(github_final_issue_closed_fixture)
+          expect(parser.milestone_complete?).to be_truthy
+        end
+      end
+
+      context 'open issues remaining' do
+        it 'returns false' do
+          parser = ReconcilerParser::Github.new(github_issue_closed_fixture)
+          expect(parser.milestone_complete?).to be_falsey
+        end
+      end
     end
   end
 end
